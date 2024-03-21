@@ -40,18 +40,24 @@ Implement the function **`sort(width, height, length, mass)`** (units are centim
 ## Installation
 
 1. Clone this repository to your local machine
-    git clone <repository-url>
+  `  git clone https://github.com/prachikolte09/RobotArm.git`
 2. Navigate to the project directory
 3. Install the required dependencies using pip:
-    pip install -r requirements.txt
+   ` pip install -r requirements.txt`
 
 ## Usage
 
 1. Start the FastAPI server:
 
-    uvicorn main:app --reload
+   ` uvicorn main:app --reload`
 2. Open your web browser and go to http://localhost:8000 to access the web application.
 
 3. Enter the dimensions and mass of the package in the provided form and submit it.
 
 4. View the sorting result displayed on the webpage.
+
+
+# Assumptions
+1. Most of the validation are given in JS file as per the objective of the assignment 
+2. No characters are allowed. Regex are used.
+3. API validations are temporary shown in pop alerts can be changed better

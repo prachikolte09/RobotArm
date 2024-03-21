@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request , status, HTTPException
+from fastapi import FastAPI, Request, status, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, validator, Field, ValidationError
@@ -17,6 +17,14 @@ class Package(BaseModel):
     height: float = Field(..., gt=0, description="Height of the package in centimeters")
     length: float = Field(..., gt=0, description="Length of the package in centimeters")
     mass: float = Field(..., gt=0, description="Mass of the package in kilograms")
+
+    # example validator
+    # @validator("mass")
+    # def validate_mass(cls, value):
+    #     if value > 100:
+    #         raise ValueError("Mass cannot exceed 100 kilograms")
+    #     return value
+
 
 def calculate_volume(width, height, length):
     return width * height * length
@@ -56,7 +64,8 @@ async def home(request: Request):
 @app.post("/sort_package/")
 async def sort_package(package_data: Package):
     try:
-        package = Package.validate(package_data)  # Input validation
+        package = Package.validate(
+            package_data)  # Input validations like weight limit and this can be handled in JS or API level
         result = sort(package.width, package.height, package.length, package.mass)
         return JSONResponse(content={"result": result})
     except ValidationError as e:
@@ -66,4 +75,3 @@ async def sort_package(package_data: Package):
         raise HTTPException(status_code=422, detail=error_messages)
     except ValueError as e:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"error": str(e)})
-

@@ -1,4 +1,4 @@
-document.getElementById("packageForm").addEventListener("submit", async function(event) {
+document.getElementById("packageForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const widthInput = document.getElementById("width");
@@ -53,6 +53,6 @@ document.getElementById("packageForm").addEventListener("submit", async function
             alert("An error occurred. Please try again later.");
         }
     } else {
-        // Handle other status codes
+        // Handle other status codes if any like weight restriction or length
     }
 });
