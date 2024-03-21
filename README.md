@@ -2,8 +2,8 @@
 
 Package Sorter is a web application built using FastAPI and Javascript for sorting packages based on their dimensions and mass. This webapp is deployed on Free-tier of third party service Vercel. 
 Inputs can be tested at 
-
-[https://robot-nrtyg3kd0-prachis-projects-18131715.vercel.app/](https://robot-nrtyg3kd0-prachis-projects-18131715.vercel.app/)
+[
+https://robot-5k3tn028t-prachis-projects-18131715.vercel.app/'](https://robot-5k3tn028t-prachis-projects-18131715.vercel.app/)
 
 ### Objective
 
