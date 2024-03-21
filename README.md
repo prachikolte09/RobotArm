@@ -64,3 +64,7 @@ Implement the function **`sort(width, height, length, mass)`** (units are centim
 1. Most of the validation are given in JS file as per the objective of the assignment 
 2. No characters are allowed. Regex are used.
 3. API validations are temporary shown in pop alerts can be changed better
+
+# Improvement
+1. Limit values are kept static as per assignment can be accepted from frontend 
+2. Units can be changed and hence the limits can be changed to match values

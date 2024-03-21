@@ -17,6 +17,9 @@ class Package(BaseModel):
     height: float = Field(..., gt=0, description="Height of the package in centimeters")
     length: float = Field(..., gt=0, description="Length of the package in centimeters")
     mass: float = Field(..., gt=0, description="Mass of the package in kilograms")
+    volume_limit: float = Field(1000000, gt=0, description="Volume limit in cubic centimeters")
+    dimension_limit: float = Field(150, gt=0, description="Dimension limit in centimeters")
+    weight_limit: float = Field(20, gt=0, description="Weight limit in kilograms")
 
     # example validator
     # @validator("mass")
@@ -30,13 +33,17 @@ def calculate_volume(width, height, length):
     return width * height * length
 
 
-def sort(width: float, height: float, length: float, mass: float) -> str:
+def sort(width: float, height: float, length: float, mass: float,
+         volume_limit: float = 1000000, dimension_limit: float = 150, weight_limit: float = 20) -> str:
     """
     Sorts the package into the appropriate stack based on its dimensions and mass.
     :param width: The width of the package in centimeters.
     :param height: The height of the package in centimeters.
     :param length: The length of the package in centimeters.
     :param mass: The mass of the package in kilograms.
+    :param volume_limit: The maximum allowed volume of the package in cubic centimeters.
+    :param dimension_limit: The maximum allowed dimension of the package in centimeters.
+    :param weight_limit: The maximum allowed weight of the package in kilograms.
     :return: The name of the stack where the package should go: STANDARD, SPECIAL, or REJECTED.
     """
     volume = calculate_volume(width, height, length)
@@ -44,13 +51,13 @@ def sort(width: float, height: float, length: float, mass: float) -> str:
     if any(dim <= 0 for dim in (width, height, length)) or mass < 0:
         raise ValueError("Dimensions and mass must be non-negative numbers.")
 
-    if volume >= 1000000 or width >= 150 or height >= 150 or length >= 150:
-        if mass >= 20:
+    if volume >= volume_limit or width >= dimension_limit or height >= dimension_limit or length >= dimension_limit:
+        if mass >= weight_limit:
             return "REJECTED"
         else:
             return "SPECIAL"
     else:
-        if mass >= 20:
+        if mass >= weight_limit:
             return "SPECIAL"
         else:
             return "STANDARD"
@@ -64,8 +71,7 @@ async def home(request: Request):
 @app.post("/sort_package/")
 async def sort_package(package_data: Package):
     try:
-        package = Package.validate(
-            package_data)  # Input validations like weight limit and this can be handled in JS or API level
+        package = Package.validate(package_data)  # Input validations like weight limit and this can be handled in JS or API level
         result = sort(package.width, package.height, package.length, package.mass)
         return JSONResponse(content={"result": result})
     except ValidationError as e:
