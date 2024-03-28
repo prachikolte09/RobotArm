@@ -4,9 +4,19 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, validator, Field, ValidationError
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 # Jinjatemplate for index file
 templates = Jinja2Templates(directory="templates")
@@ -27,6 +37,8 @@ class Package(BaseModel):
     #     if value > 100:
     #         raise ValueError("Mass cannot exceed 100 kilograms")
     #     return value
+
+
 
 
 def calculate_volume(width, height, length):
@@ -68,7 +80,7 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.post("/sort_package/")
+@app.post("/sort_package")
 async def sort_package(package_data: Package):
     try:
         package = Package.validate(package_data)  # Input validations like weight limit and this can be handled in JS or API level

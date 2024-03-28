@@ -1,6 +1,5 @@
 document.getElementById("packageForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    console.log(document.getElementById("packageForm"));
 
     const widthInput = document.getElementById("width");
     const heightInput = document.getElementById("height");
