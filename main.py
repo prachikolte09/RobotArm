@@ -31,7 +31,7 @@ class Package(BaseModel):
     dimension_limit: float = Field(150, gt=0, description="Dimension limit in centimeters")
     weight_limit: float = Field(20, gt=0, description="Weight limit in kilograms")
 
-    # example validator
+
     # @validator("mass")
     # def validate_mass(cls, value):
     #     if value > 100:
